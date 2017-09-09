@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id='main-container'></div>
+  <script>
+    fetch('http://localhost:1338/api/sportsfigure')
+      .then(res => res.json())
+      .then(sportsFigures => {
+        console.log(sportsFigures);
+        var elements = '';
+        sportsFigures.forEach(function(guy, idx) {
+          if (!guy.name) return;
+          elements += buildCard(guy);
+        })
+        document.getElementById('main-container').innerHTML = elements;
+      });
+
+      function buildCard(sportsDude){
+        let achievements = sportsDude.achievements.map(ach=> `<li>${ach}</li>`);
+      achievements = achievements.reduce((p,c)=>p+c, "");
+        return `
+        <div class = 'card'>
+        <div class ='picture-container'>
+        <img class = 'picture' src='${sportsDude.pictureUrl}' />
+        </div>
+        <h3>${sportsDude.sport}</h3>
+        <ul>
+          ${achievements}
+          </ul>
+          </div>
+          `;
+      }
+  </script>
+
+  <style>
+
+  </style>
+</body>
+
+</html>
